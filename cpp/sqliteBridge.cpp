@@ -449,7 +449,7 @@ SequelLiteralUpdateResult sqliteExecuteLiteral(string const dbName, string const
     const char *message = sqlite3_errmsg(db);
     return {
       SQLiteError,
-      "[react-native-quick-sqlite] SQL execution error: " + string(message),
+      "[react-native-quick-sqlite] SQL execution error: " + string(message) + ". Query: [" + query.c_str() + "]",
       0};
   }
 
@@ -486,7 +486,7 @@ SequelLiteralUpdateResult sqliteExecuteLiteral(string const dbName, string const
     const char *message = sqlite3_errmsg(db);
     return {
       SQLiteError,
-      "[react-native-quick-sqlite] SQL execution error: " + string(message),
+      "[react-native-quick-sqlite] SQL execution error: " + string(message) + ". Query: [" + query.c_str() + "]",
       0};
   }
 
