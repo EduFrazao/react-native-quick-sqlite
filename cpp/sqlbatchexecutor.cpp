@@ -56,7 +56,7 @@ SequelBatchOperationResult sqliteExecuteBatch(std::string dbName, vector<QuickQu
   try 
   {
     int affectedRows = 0;
-    sqliteExecuteLiteral(dbName, "BEGIN EXCLUSIVE TRANSACTION");
+    sqliteExecuteLiteral(dbName, "BEGIN TRANSACTION");
     for(int i = 0; i<commandCount; i++) {
       auto command = commands->at(i);
       // We do not provide a datastructure to receive query data because we don't need/want to handle this results in a batch execution

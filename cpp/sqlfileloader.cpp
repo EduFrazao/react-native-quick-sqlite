@@ -17,7 +17,7 @@ SequelBatchOperationResult importSQLFile(string dbName, string fileLocation)
     {
       int affectedRows = 0;
       int commands = 0;
-      sqliteExecuteLiteral(dbName, "BEGIN EXCLUSIVE TRANSACTION");
+      sqliteExecuteLiteral(dbName, "BEGIN CONCURRENT");
       while (std::getline(sqFile, line, '\n'))
       {
         if (!line.empty())
