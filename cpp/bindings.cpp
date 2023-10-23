@@ -338,7 +338,9 @@ void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker
               resolve->asObject(rt).asFunction(rt).call(rt, move(res));
             } else
             {
-              reject->asObject(rt).asFunction(rt).call(rt, move(jsi::JSError(rt, batchResult.message)));
+              auto errorCtr = rt.global().getPropertyAsFunction(rt, "Error");
+              auto error = errorCtr.callAsConstructor(rt, jsi::String::createFromUtf8(rt, batchResult.message));
+              reject->asObject(rt).asFunction(rt).call(rt, error);
             } });
         }
         catch (std::exception &exc)
@@ -409,7 +411,9 @@ void install(jsi::Runtime &rt, std::shared_ptr<react::CallInvoker> jsCallInvoker
               res.setProperty(rt, "commands", jsi::Value(result.commands));
               resolve->asObject(rt).asFunction(rt).call(rt, move(res));
             } else {
-              reject->asObject(rt).asFunction(rt).call(rt, move(jsi::JSError(rt, result.message)));
+              auto errorCtr = rt.global().getPropertyAsFunction(rt, "Error");
+              auto error = errorCtr.callAsConstructor(rt, jsi::String::createFromUtf8(rt, result.message));
+              reject->asObject(rt).asFunction(rt).call(rt, error);
             } });
         }
         catch (std::exception &exc)
