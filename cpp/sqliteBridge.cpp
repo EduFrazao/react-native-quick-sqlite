@@ -290,7 +290,7 @@ SQLiteOPResult sqliteExecute(string const dbName, string const &query, vector<Qu
     const char *message = sqlite3_errmsg(db);
     return SQLiteOPResult{
       .type = SQLiteError,
-      .errorMessage = "[react-native-quick-sqlite] SQL execution error: " + string(message),
+      .errorMessage = "[react-native-quick-sqlite] SQL execution error: " + string(message) + ". Query: [" + query.c_str() + "]",
       .rowsAffected = 0};
   }
 
