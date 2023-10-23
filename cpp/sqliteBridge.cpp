@@ -82,6 +82,13 @@ string get_db_path(string const dbName, string const docPath)
 
 SQLiteOPResult sqliteOpenDb(string const dbName, string const docPath)
 {
+  // Checking if this database is already opened, and
+  // closing the active connection if needed
+  if (dbMap.count(dbName) > 0)
+  {
+    sqliteCloseDb(dbName);
+  }
+
   string dbPath = get_db_path(dbName, docPath);
 
   int sqlOpenFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX;
