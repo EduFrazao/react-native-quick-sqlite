@@ -86,7 +86,13 @@ SQLiteOPResult sqliteOpenDb(string const dbName, string const docPath)
   // closing the active connection if needed
   if (dbMap.count(dbName) > 0)
   {
-    sqliteCloseDb(dbName);
+    SQLiteOPResult r = sqliteCloseDb(dbName);
+    if (r.type != SQLiteOk) {
+      return SQLiteOPResult{
+        .type = SQLiteError,
+        .errorMessage = "error trying to close already opened connection to " + dbName
+      };
+    }
   }
 
   string dbPath = get_db_path(dbName, docPath);
