@@ -17,7 +17,7 @@ SequelBatchOperationResult importSQLFile(string dbName, string fileLocation)
     {
       int affectedRows = 0;
       int commands = 0;
-      sqliteExecuteLiteral(dbName, "BEGIN IMMEDIATE");
+      sqliteExecuteLiteral(dbName, "BEGIN EXCLUSIVE TRANSACTION");
       while (std::getline(sqFile, line, '\n'))
       {
         if (!line.empty())
@@ -36,14 +36,14 @@ SequelBatchOperationResult importSQLFile(string dbName, string fileLocation)
           }
         }
       }
-      sqFile.close();
       sqliteExecuteLiteral(dbName, "COMMIT");
+      sqFile.close();
       return {SQLiteOk, "", affectedRows, commands};
     }
     catch (...)
     {
-      sqFile.close();
       sqliteExecuteLiteral(dbName, "ROLLBACK");
+      sqFile.close();
       return {SQLiteError, "[react-native-quick-sqlite][loadSQLFile] Unexpected error, transaction was rolledback", 0, 0};
     }
   }
