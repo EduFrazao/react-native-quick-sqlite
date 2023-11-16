@@ -16,6 +16,8 @@ ThreadPool::ThreadPool() : done(false)
   if (numberOfThreads == 0)
   {
     numberOfThreads = 1;
+  } else if (numberOfThreads > 3) {
+    numberOfThreads = numberOfThreads / 2;
   }
 
   for (unsigned i = 0; i < numberOfThreads; ++i)
