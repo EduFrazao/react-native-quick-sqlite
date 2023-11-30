@@ -4,6 +4,7 @@
 #include "sqlfileloader.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -20,6 +21,8 @@ SequelBatchOperationResult importSQLFile(string dbName, string fileLocation)
       sqliteExecuteLiteral(dbName, "BEGIN EXCLUSIVE TRANSACTION");
       while (std::getline(sqFile, line, '\n'))
       {
+        std::string::iterator end_pos = std::remove(line.begin(), line.end(), ' ');
+        line.erase(end_pos, str.end());
         if (!line.empty())
         {
           SequelLiteralUpdateResult result = sqliteExecuteLiteral(dbName, line);
